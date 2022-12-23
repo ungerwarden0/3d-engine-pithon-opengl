@@ -12,8 +12,6 @@ x = 3.5
 y = 0
 z = 0
 
-
-
 pygame.init()
 display = (1500, 800)
 scree = pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
@@ -84,21 +82,17 @@ run = True
 while run:
     y += 0.1
 
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
 
-
-
-
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN:
                 run = False
-            if event.key == pygame.K_PAUSE or event.key == pygame.K_p:
-                paused = not paused
-                pygame.mouse.set_pos(displayCenter)
-                pygame.mouse.set_visible(True)
+
+
+
+
         if not paused:
             if event.type == pygame.MOUSEMOTION:
                 mouseMove = [event.pos[i] - displayCenter[i] for i in range(2)]
@@ -106,12 +100,16 @@ while run:
             pygame.mouse.set_visible(False)
 
 
+
     if not paused:
-        # get keys
         keypress = pygame.key.get_pressed()
         # mouseMove = pygame.mouse.get_rel()
 
-        # init model view matrix
+
+
+
+
+
         glLoadIdentity()
 
         # apply the look up and down
@@ -146,8 +144,6 @@ while run:
                 time.sleep(0.1)
                 is_fulscreen = False
 
-
-
         glRotatef(mouseMove[0] * 0.1, 0.0, 1.0, 0.0)
 
         # multiply the current matrix by the get the new view matrix and store the final vie matrix
@@ -159,10 +155,6 @@ while run:
         glMultMatrixf(viewMatrix)
 
         glLightfv(GL_LIGHT0, GL_POSITION,[20, -100, 100, 0])
-
-
-
-
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
@@ -184,22 +176,13 @@ while run:
         glColor4f(0.2, 0.5, 1.2, 1)
         gluSphere(sphere, 1.0, 32000000, 16000)
 
-
-
-
-
-
         glTranslatef(x, y, z)
         glColor4f(0.0, 0.8, 0.1, 1)
         gluSphere(sphere, 1.0, 32000000, 16000)
 
-
-
         glTranslatef(3, 0, 0)
         glColor4f(1.2, 1.5, 1.5, 1)
         gluSphere(sphere, 100.0, 320000, 16000)
-
-
 
         glPopMatrix()
 

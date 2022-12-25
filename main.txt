@@ -23,7 +23,6 @@ glViewport(130, 120, 1300, 660)
 
 
 
-
 is_fulscreen = False
 
 pygame.mouse.set_visible(False)
@@ -80,7 +79,16 @@ up_down_angle = 0.0
 paused = False
 run = True
 while run:
-    y += 0.1
+    if pygame.key.get_pressed()[pygame.K_UP]:
+        y += 0.1
+    if pygame.key.get_pressed()[pygame.K_DOWN]:
+        y += -0.1
+    if pygame.key.get_pressed()[pygame.K_RIGHT]:
+        x += +0.1
+    if pygame.key.get_pressed()[pygame.K_LEFT]:
+        x += -0.1
+
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

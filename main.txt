@@ -12,6 +12,10 @@ x = 3.5
 y = 0
 z = 0
 
+xs = 0
+
+ys = 0
+
 pygame.init()
 display = (1500, 800)
 scree = pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
@@ -57,10 +61,12 @@ glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
 
 glEnable(GL_LIGHT0)
 glLightfv(GL_LIGHT0, GL_AMBIENT, [0.5, 0.5, 0.5, 1])
-glLightfv(GL_LIGHT0, GL_DIFFUSE, [3.0, 3.0, 3.0, 10000])
+glLightfv(GL_LIGHT0, GL_DIFFUSE, [2.0, 1.7, 1.2, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.4, 0.4, 0.4,0))
+glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
+
 
 sphere = gluNewQuadric()
-
 
 glMatrixMode(GL_PROJECTION)
 gluPerspective(45, (display[0] / display[1]), 0.1, 500.0) #радиус прорисовки
@@ -87,6 +93,8 @@ while run:
         x += +0.1
     if pygame.key.get_pressed()[pygame.K_LEFT]:
         x += -0.1
+
+
 
 
 
@@ -152,6 +160,9 @@ while run:
                 time.sleep(0.1)
                 is_fulscreen = False
 
+
+
+
         glRotatef(mouseMove[0] * 0.1, 0.0, 1.0, 0.0)
 
         # multiply the current matrix by the get the new view matrix and store the final vie matrix
@@ -162,7 +173,12 @@ while run:
         glPopMatrix()
         glMultMatrixf(viewMatrix)
 
-        glLightfv(GL_LIGHT0, GL_POSITION,[20, -100, 100, 0])
+
+
+        glLightfv(GL_LIGHT0, GL_POSITION,[20, -100, -10, 1])
+
+
+
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
@@ -176,21 +192,35 @@ while run:
         glVertex3f(-20, 20, -2)
         glEnd()
 
+
+
+
+
+
+
+
         glTranslatef(-1.5, 0, 0)
-        glColor4f(0.5, 0.2, 0.2, 1)
+        glColor4f(1.2, 0.2, 0.2, 1)
         gluSphere(sphere, 1.0, 32000000, 16000)
 
         glTranslatef(3, 0, 0)
         glColor4f(0.2, 0.5, 1.2, 1)
         gluSphere(sphere, 1.0, 32000000, 16000)
 
+
         glTranslatef(x, y, z)
-        glColor4f(0.0, 0.8, 0.1, 1)
+        glColor4f(0.0, 0.4, 0.1, 1)
         gluSphere(sphere, 1.0, 32000000, 16000)
 
         glTranslatef(3, 0, 0)
         glColor4f(1.2, 1.5, 1.5, 1)
         gluSphere(sphere, 100.0, 320000, 16000)
+
+
+
+
+
+
 
         glPopMatrix()
 

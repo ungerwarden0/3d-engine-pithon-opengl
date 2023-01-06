@@ -12,9 +12,9 @@ x = 3.5
 y = 0
 z = 0
 
-xs = 0
+xl = -100
 
-ys = 0
+clock = pygame.time.Clock()
 
 pygame.init()
 display = (1500, 800)
@@ -57,12 +57,13 @@ glEnable(GL_LIGHTING)
 glShadeModel(GL_SMOOTH)
 glEnable(GL_COLOR_MATERIAL)
 glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
+glEnable(GL_NORMALIZE)
 
 
 glEnable(GL_LIGHT0)
 glLightfv(GL_LIGHT0, GL_AMBIENT, [0.5, 0.5, 0.5, 1])
 glLightfv(GL_LIGHT0, GL_DIFFUSE, [2.0, 1.7, 1.2, 1])
-glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.4, 0.4, 0.4,0))
+glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.4, 0.4, 0.4, 0))
 glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
 
 
@@ -85,6 +86,28 @@ up_down_angle = 0.0
 paused = False
 run = True
 while run:
+    print(xl)
+    xl += 0.05
+    if xl == 100.0499999999929:
+        xl = -100
+    if xl > -100:
+        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.5, 0.5, 0.5, 1])
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, [2.0, 1.7, 1.2, 1])
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.4, 0.4, 0.4, 0))
+        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
+
+    if xl > 50:
+        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.7, 0.4, 0.2, 1])
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, [2.0, 1.2, 0.5, 1])
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.6, 0.3, 0.3, 0))
+        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
+
+    if xl > 80:
+        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.0, 0.0, 0.0, 1])
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0, 0, 0, 1])
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0, 0, 0, 0))
+        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
+
     if pygame.key.get_pressed()[pygame.K_UP]:
         y += 0.1
     if pygame.key.get_pressed()[pygame.K_DOWN]:
@@ -94,9 +117,7 @@ while run:
     if pygame.key.get_pressed()[pygame.K_LEFT]:
         x += -0.1
 
-
-
-
+    clock.tick(60)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -174,15 +195,15 @@ while run:
         glMultMatrixf(viewMatrix)
 
 
-
-        glLightfv(GL_LIGHT0, GL_POSITION,[20, -100, -10, 1])
-
+        glLightfv(GL_LIGHT0, GL_POSITION,[2, xl, 20, 1])
 
 
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         glPushMatrix()
+
+
 
         glColor4f(0.5, 0.5, 0.5, 1)
         glBegin(GL_QUADS)
@@ -203,6 +224,7 @@ while run:
         glColor4f(1.2, 0.2, 0.2, 1)
         gluSphere(sphere, 1.0, 32000000, 16000)
 
+
         glTranslatef(3, 0, 0)
         glColor4f(0.2, 0.5, 1.2, 1)
         gluSphere(sphere, 1.0, 32000000, 16000)
@@ -211,6 +233,8 @@ while run:
         glTranslatef(x, y, z)
         glColor4f(0.0, 0.4, 0.1, 1)
         gluSphere(sphere, 1.0, 32000000, 16000)
+
+
 
         glTranslatef(3, 0, 0)
         glColor4f(1.2, 1.5, 1.5, 1)
@@ -222,7 +246,16 @@ while run:
 
 
 
+
+
+
+
+
+
+
         glPopMatrix()
+
+
 
         pygame.display.flip()
         pygame.time.wait(14)
@@ -230,4 +263,3 @@ while run:
 
 
 pygame.quit()
-

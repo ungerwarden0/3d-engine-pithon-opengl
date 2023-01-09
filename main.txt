@@ -125,8 +125,10 @@ while run:
             x += -0.1
     if pygame.key.get_pressed()[pygame.K_x]:
         if if_simulating == False:
+            time.sleep(0.1)
             if_simulating = True
         elif if_simulating == True:
+            time.sleep(0.1)
             if_simulating = False
 
 

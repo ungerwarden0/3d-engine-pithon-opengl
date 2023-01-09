@@ -14,6 +14,8 @@ z = 0
 
 xl = -100
 
+if_simulating = False
+
 clock = pygame.time.Clock()
 
 pygame.init()
@@ -21,6 +23,15 @@ display = (1500, 800)
 scree = pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
 
 glViewport(130, 120, 1300, 660)
+
+
+
+class character:
+    def __init__(self, model, gravitation, name, blueprint):
+        self.model = model
+        self.gravitation = gravitation
+        self.name = name
+        self.blueprint = blueprint
 
 
 
@@ -60,6 +71,7 @@ glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
 glEnable(GL_NORMALIZE)
 
 
+
 glEnable(GL_LIGHT0)
 glLightfv(GL_LIGHT0, GL_AMBIENT, [0.5, 0.5, 0.5, 1])
 glLightfv(GL_LIGHT0, GL_DIFFUSE, [2.0, 1.7, 1.2, 1])
@@ -70,7 +82,7 @@ glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
 sphere = gluNewQuadric()
 
 glMatrixMode(GL_PROJECTION)
-gluPerspective(45, (display[0] / display[1]), 0.1, 500.0) #радиус прорисовки
+gluPerspective(45, (display[0] / display[1]), 0.1, 50000.0) #радиус прорисовки
 
 glMatrixMode(GL_MODELVIEW)
 gluLookAt(0, -8, 0, 0, 0, 0, 0, 0, 1)
@@ -78,225 +90,45 @@ viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
 glLoadIdentity()
 
 # init mouse movement and center mouse on screen
+
+
 displayCenter = [scree.get_size()[i] // 2 for i in range(2)]
 mouseMove = [0, 0]
 pygame.mouse.set_pos(displayCenter)
+
+
+
 
 up_down_angle = 0.0
 paused = False
 run = True
 while run:
-    print(xl)
-    xl += 0.05
-    if xl > 200:
-        xl = -100
-    if xl > -100:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.00, 0.00, 0.00, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0, 0, 0, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0, 0, 0, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -99:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.01, 0.02, 0.02, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0, 0, 0, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0, 0, 0, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -98:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.02, 0.03, 0.03, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0, 0, 0, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0, 0, 0, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -97:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.05, 0.04, 0.04, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0, 0, 0, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0, 0, 0, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -96:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.06, 0.04, 0.04, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0, 0, 0, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0, 0, 0, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -95:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.10, 0.05, 0.05, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0.1, 0.1, 0.1, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0, 0, 0, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -94:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.11, 0.06, 0.06, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0.1, 0.1, 0.1, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0, 0, 0, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -93:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.15, 0.08, 0.08, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0.2, 0.2, 0.2, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0, 0, 0, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -92:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.17, 0.08, 0.08, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0.2, 0.2, 0.2, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0, 0, 0, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -91:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.19, 0.09, 0.09, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0.2, 0.2, 0.2, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.1, 0.1, 0.1, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -90:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.20, 0.10, 0.10, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0.3, 0.3, 0.3, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.1, 0.1, 0.1, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -85:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.30, 0.20, 0.20, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0.4, 0.4, 0.4, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.2, 0.2, 0.2, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -80:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.40, 0.30, 0.30, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0.5, 0.5, 0.5, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.3, 0.3, 0.3, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -77:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.50, 0.31, 0.31, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0.6, 0.6, 0.6, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.4, 0.3, 0.3, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -74:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.51, 0.32, 0.32, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0.7, 0.7, 0.7, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.5, 0.3, 0.3, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -72:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.52, 0.33, 0.33, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0.8, 0.8, 0.8, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.6, 0.3, 0.3, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -71:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.53, 0.34, 0.34, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0.8, 0.8, 0.8, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.6, 0.3, 0.3, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -70:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.60, 0.40, 0.40, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [2.0, 1.2, 0.5, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.7, 0.4, 0.4, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -65:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.61, 0.40, 0.40, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [2.0, 1.2, 0.5, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.7, 0.4, 0.4, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
+    if if_simulating == True:
+        print(xl)
+        xl += 0.5
+        if xl > 200:
+            xl = -100
 
 
-    if xl > -60:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.62, 0.41, 0.41, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [2.0, 1.3, 0.6, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.6, 0.4, 0.4, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -50:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.63, 0.42, 0.42, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [2.0, 1.4, 0.6, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.6, 0.4, 0.4, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -40:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.60, 0.44, 0.44, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [2.0, 1.5, 0.8, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.5, 0.4, 0.4, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -40:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.57, 0.47, 0.47, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [2.0, 1.5, 1.0, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.4, 0.4, 0.4, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -35:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.53, 0.49, 0.49, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [2.0, 1.6, 1.1, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.4, 0.4, 0.4, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > -30:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.50, 0.50, 0.50, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [2.0, 1.7, 1.2, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.4, 0.4, 0.4, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > 45:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.50, 0.45, 0.45, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [2.0, 1.5, 1.0, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.4, 0.4, 0.4, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > 50:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.50, 0.40, 0.40, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [2.0, 1.2, 0.5, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.5, 0.3, 0.3, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > 60:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.60, 0.30, 0.30, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [2.0, 1.2, 0.5, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.6, 0.3, 0.3, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > 70:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.50, 0.20, 0.20, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [1.9, 1.1, 0.4, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.5, 0.2, 0.2, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > 75:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.40, 0.10, 0.10, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [1.8, 1.0, 0.3, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.4, 0.1, 0.1, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > 77:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.30, 0.10, 0.10, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [1.6, 0.9, 0.2, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.3, 0.1, 0.1, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > 79:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.20, 0.10, 0.10, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [1.4, 0.7, 0.1, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0.1, 0.1, 0.1, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
-
-    if xl > 80:
-        glLightfv(GL_LIGHT0, GL_AMBIENT, [0.00, 0.00, 0.00, 1])
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, [0, 0, 0, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (0, 0, 0, 0))
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 16)
 
     if pygame.key.get_pressed()[pygame.K_UP]:
-        y += 0.1
+        if if_simulating == True:
+            y += 0.1
     if pygame.key.get_pressed()[pygame.K_DOWN]:
-        y += -0.1
+        if if_simulating == True:
+            y += -0.1
     if pygame.key.get_pressed()[pygame.K_RIGHT]:
-        x += +0.1
+        if if_simulating == True:
+            x += +0.1
     if pygame.key.get_pressed()[pygame.K_LEFT]:
-        x += -0.1
+        if if_simulating == True:
+            x += -0.1
+    if pygame.key.get_pressed()[pygame.K_x]:
+        if if_simulating == False:
+            if_simulating = True
+        elif if_simulating == True:
+            if_simulating = False
+
 
     clock.tick(60)
 
@@ -365,6 +197,8 @@ while run:
 
 
 
+
+
         glRotatef(mouseMove[0] * 0.1, 0.0, 1.0, 0.0)
 
         # multiply the current matrix by the get the new view matrix and store the final vie matrix
@@ -376,7 +210,7 @@ while run:
         glMultMatrixf(viewMatrix)
 
 
-        glLightfv(GL_LIGHT0, GL_POSITION,[2, xl, 20, 1])
+        glLightfv(GL_LIGHT0, GL_POSITION,[2, xl, 70, 1])
 
 
 
@@ -401,9 +235,10 @@ while run:
 
 
 
-        glTranslatef(-1.5, 0, 0)
-        glColor4f(1.2, 0.2, 0.2, 1)
+        glTranslatef(-1.5, 0, 0, )
+        glColor4f(1.2, 0.2, 0.2, 0.3)
         gluSphere(sphere, 1.0, 32000000, 16000)
+
 
 
         glTranslatef(3, 0, 0)
@@ -419,7 +254,7 @@ while run:
 
         glTranslatef(3, 0, 0)
         glColor4f(1.2, 1.5, 1.5, 1)
-        gluSphere(sphere, 100.0, 320000, 16000)
+        gluSphere(sphere, 10000.0, 32, 160)
 
         glPopMatrix()
 
